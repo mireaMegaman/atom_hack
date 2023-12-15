@@ -1,0 +1,1 @@
+{"data": [{"id": 1, "image_path": "C:\\Users\\user\\Data\\Files\\VLC\\qwertyu.mp4", "autotype": "car", "pollution": 57, "count": 3}]}
