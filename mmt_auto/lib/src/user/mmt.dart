@@ -1,7 +1,53 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:url_launcher/url_launcher.dart';
 import 'package:mmt_auto/src/user/desktop/desk_image.dart';
+
+final Uri gun = Uri.parse('https://github.com/mireaMegaman/perm_hack');
+final Uri train = Uri.parse('https://github.com/mireaMegaman/sochi_hack');
+final Uri ocr = Uri.parse('https://github.com/mireaMegaman/nn_hackaton');
+
+final Uri atom_yolo = Uri.parse('https://github.com/mireaMegaman/atom_hack');
+final Uri atom_flutter = Uri.parse('https://github.com/mireaMegaman/atom_hack');
+final Uri atom_fastapi = Uri.parse('https://github.com/mireaMegaman/atom_hack');
+
+  Future<void> _gun() async {
+    if (!await launchUrl(gun)) {
+      throw Exception('Could not launch $gun');
+    }
+  }
+
+  Future<void> _train() async {
+    if (!await launchUrl(train)) {
+      throw Exception('Could not launch $train');
+    }
+  }
+
+  Future<void> _ocr() async {
+    if (!await launchUrl(ocr)) {
+      throw Exception('Could not launch $ocr');
+    }
+  }
+
+    Future<void> _atom_yolo() async {
+    if (!await launchUrl(atom_yolo)) {
+      throw Exception('Could not launch $atom_yolo');
+    }
+  }
+
+  Future<void> _atom_flutter() async {
+    if (!await launchUrl(atom_flutter)) {
+      throw Exception('Could not launch $atom_flutter');
+    }
+  }
+
+  Future<void> _atom_fastapi() async {
+    if (!await launchUrl(atom_fastapi)) {
+      throw Exception('Could not launch $atom_fastapi');
+    }
+  }
+
 
 // ignore: must_be_immutable
 class Megamen extends StatelessWidget {
@@ -18,7 +64,7 @@ class Megamen extends StatelessWidget {
 
   static double scw = getGlobalWidth();
 
-  Megamen({super.key});
+  const Megamen({super.key});
   
   @override
   Widget build(BuildContext context) {
@@ -72,7 +118,7 @@ class Megamen extends StatelessWidget {
                       style: TextStyle(
                         fontWeight: FontWeight.w500,
                         fontStyle: FontStyle.normal,
-                        fontSize: 18,
+                        fontSize: 22,
                         color: Color(0xffffffff),
                       ),
                     ),
@@ -102,7 +148,7 @@ class Megamen extends StatelessWidget {
                                   style: TextStyle(
                                     fontWeight: FontWeight.w600,
                                     fontStyle: FontStyle.normal,
-                                    fontSize: 18,
+                                    fontSize: 22,
                                     color: Color(0xFF75B6E5),
                                   ),
                                 ),
@@ -118,10 +164,18 @@ class Megamen extends StatelessWidget {
                                       color: const Color(0xFF275F88), width: 2),
                                 ),
                                 child: ListView(
-                                children: const <Widget>[
+                                children: <Widget>[
                                   ListTile(
-                                    leading: Icon(Icons.map),
-                                    title: Padding(
+                                    leading: IconButton(
+                                          iconSize: 35,
+                                          icon: const Icon(Icons.camera_enhance),
+                                          color: const Color(0xFF75B6E5),
+                                          onPressed: () {
+                                            _gun();
+                                            // 
+                                          },
+                                        ),
+                                    title: const Padding(
                                           padding: EdgeInsets.all(5),
                                           child: Text(
                                             "MMT-GUNS — приложение для распознавания вооруженных людей;",
@@ -130,15 +184,23 @@ class Megamen extends StatelessWidget {
                                             style: TextStyle(
                                               fontWeight: FontWeight.w500,
                                               fontStyle: FontStyle.normal,
-                                              fontSize: 16,
+                                              fontSize: 18,
                                               color: Color(0xffffffff),
                                             ),
                                           ),
                                         ),
                                   ),
                                   ListTile(
-                                    leading: Icon(Icons.photo_album),
-                                    title: Padding(
+                                    leading: IconButton(
+                                            iconSize: 35,
+                                            // ads_click_sharp
+                                            icon: const Icon(Icons.directions_transit_filled_rounded),
+                                            color: const Color(0xFF75B6E5),
+                                            onPressed: () {
+                                              _train();
+                                            },
+                                          ),
+                                    title: const Padding(
                                           padding: EdgeInsets.all(5),
                                           child: Text(
                                             "MMT-VAGON — приложение для распознавания номеров вагонов;",
@@ -147,15 +209,22 @@ class Megamen extends StatelessWidget {
                                             style: TextStyle(
                                               fontWeight: FontWeight.w500,
                                               fontStyle: FontStyle.normal,
-                                              fontSize: 16,
+                                              fontSize: 18,
                                               color: Color(0xffffffff),
                                             ),
                                           ),
                                         ),
                                   ),
                                   ListTile(
-                                    leading: Icon(Icons.phone),
-                                    title:  Padding(
+                                    leading: IconButton(
+                                              iconSize: 35,
+                                              icon: const Icon(Icons.auto_stories_rounded),
+                                              color: const Color(0xFF75B6E5),
+                                              onPressed: () {
+                                                _ocr();
+                                              },
+                                            ),
+                                    title: const Padding(
                                           padding: EdgeInsets.all(5),
                                           child: Text(
                                             "MMT-CR — модель для определения корректного рейтинга компании по пресс-релизу;",
@@ -164,7 +233,7 @@ class Megamen extends StatelessWidget {
                                             style: TextStyle(
                                               fontWeight: FontWeight.w500,
                                               fontStyle: FontStyle.normal,
-                                              fontSize: 16,
+                                              fontSize: 18,
                                               color: Color(0xffffffff),
                                             ),
                                           ),
@@ -204,7 +273,7 @@ class Megamen extends StatelessWidget {
                                   style: TextStyle(
                                     fontWeight: FontWeight.w600,
                                     fontStyle: FontStyle.normal,
-                                    fontSize: 18,
+                                    fontSize: 22,
                                     color: Color(0xFF75B6E5),
                                   ),
                                 ),
@@ -220,10 +289,17 @@ class Megamen extends StatelessWidget {
                                       color: const Color(0xFF275F88), width: 2),
                                 ),
                                 child: ListView(
-                                children: const <Widget>[
+                                children: <Widget>[
                                   ListTile(
-                                    leading: Icon(Icons.map),
-                                    title: Padding(
+                                    leading: IconButton(
+                                            iconSize: 35,
+                                            icon: const Icon(Icons.ads_click_sharp),
+                                            color: const Color(0xFF75B6E5),
+                                            onPressed: () {
+                                              _train();
+                                            },
+                                          ),
+                                    title: const Padding(
                                           padding: EdgeInsets.all(5),
                                           child: Text(
                                             "Для распознавания был использован ансамбль моделей YOLOv8 и RT-DETR;",
@@ -232,15 +308,22 @@ class Megamen extends StatelessWidget {
                                             style: TextStyle(
                                               fontWeight: FontWeight.w500,
                                               fontStyle: FontStyle.normal,
-                                              fontSize: 16,
+                                              fontSize: 18,
                                               color: Color(0xffffffff),
                                             ),
                                           ),
                                         ),
                                   ),
                                   ListTile(
-                                    leading: Icon(Icons.photo_album),
-                                    title: Padding(
+                                    leading: IconButton(
+                                            iconSize: 35,
+                                            icon: const Icon(Icons.ads_click_sharp),
+                                            color: const Color(0xFF75B6E5),
+                                            onPressed: () {
+                                              _train();
+                                            },
+                                          ),
+                                    title: const Padding(
                                           padding: EdgeInsets.all(5),
                                           child: Text(
                                             "Для создания мультиплатформенного приложения был выбран Flutter;",
@@ -249,15 +332,22 @@ class Megamen extends StatelessWidget {
                                             style: TextStyle(
                                               fontWeight: FontWeight.w500,
                                               fontStyle: FontStyle.normal,
-                                              fontSize: 16,
+                                              fontSize: 18,
                                               color: Color(0xffffffff),
                                             ),
                                           ),
                                         ),
                                   ),
                                   ListTile(
-                                    leading: Icon(Icons.phone),
-                                    title:  Padding(
+                                    leading: IconButton(
+                                            iconSize: 35,
+                                            icon: const Icon(Icons.ads_click_sharp),
+                                            color: const Color(0xFF75B6E5),
+                                            onPressed: () {
+                                              _train();
+                                            },
+                                          ),
+                                    title: const  Padding(
                                           padding: EdgeInsets.all(5),
                                           child: Text(
                                             "BackEnd часть проекта построена на FastAPI;",
@@ -266,7 +356,7 @@ class Megamen extends StatelessWidget {
                                             style: TextStyle(
                                               fontWeight: FontWeight.w500,
                                               fontStyle: FontStyle.normal,
-                                              fontSize: 16,
+                                              fontSize: 18,
                                               color: Color(0xffffffff),
                                             ),
                                           ),
@@ -284,7 +374,7 @@ class Megamen extends StatelessWidget {
 // ---------------------------------------------------------------------------------------------- //
 // ---------------------------------------------------------------------------------------------- //
                   const Padding(
-                    padding: EdgeInsets.symmetric(vertical: 0, horizontal: 16),
+                    padding: EdgeInsets.symmetric(vertical: 0, horizontal: 18),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       crossAxisAlignment: CrossAxisAlignment.center,
@@ -299,7 +389,7 @@ class Megamen extends StatelessWidget {
                             style: TextStyle(
                               fontWeight: FontWeight.w500,
                               fontStyle: FontStyle.normal,
-                              fontSize: 18,
+                              fontSize: 22,
                               color: Color(0xFF75B6E5),
                             ),
                           ),
@@ -315,7 +405,7 @@ class Megamen extends StatelessWidget {
                     height: 280,
                     alignment: Alignment.center,
                     decoration: BoxDecoration(
-                      color: const Color.fromARGB(168, 24, 24, 24),
+                      color: const Color.fromARGB(188, 24, 24, 24),
                       shape: BoxShape.rectangle,
                       borderRadius: BorderRadius.circular(10.0),
                       border: Border.all(color: const Color(0xFF275F88), width: 2),
@@ -338,8 +428,8 @@ class Megamen extends StatelessWidget {
                                 children: [
                                   Image(
                                     image: AssetImage("assets/images/mmt_PoletaevVA.png"), 
-                                    height: 110,
-                                    width: 110,
+                                    height: 130,
+                                    width: 130,
                                     fit: BoxFit.contain,
                                   ),
                                   Padding(
@@ -358,7 +448,7 @@ class Megamen extends StatelessWidget {
                                             style: TextStyle(
                                               fontWeight: FontWeight.w500,
                                               fontStyle: FontStyle.normal,
-                                              fontSize: 16,
+                                              fontSize: 18,
                                               color: Color(0xffffffff),
                                             ),
                                           ),
@@ -372,7 +462,7 @@ class Megamen extends StatelessWidget {
                                             style: TextStyle(
                                               fontWeight: FontWeight.w600,
                                               fontStyle: FontStyle.normal,
-                                              fontSize: 15,
+                                              fontSize: 18,
                                               color: Color(0xFF75B6E5),
                                             ),
                                           ),
@@ -393,7 +483,7 @@ class Megamen extends StatelessWidget {
                             thickness: 2,
                             indent: 20,
                             endIndent: 0,
-                            color: Color(0xFF275F88),
+                            color: Color(0xFFF3F2F3),
                           ),
                         ),
                         Center(
@@ -409,8 +499,8 @@ class Megamen extends StatelessWidget {
                                   
                                   Image(
                                     image: AssetImage("assets/images/mmt_ChufistovGA.png"),
-                                    height: 110,
-                                    width: 110,
+                                    height: 130,
+                                    width: 130,
                                     fit: BoxFit.contain,
                                   ),
                                   Padding(
@@ -429,7 +519,7 @@ class Megamen extends StatelessWidget {
                                             style: TextStyle(
                                               fontWeight: FontWeight.w500,
                                               fontStyle: FontStyle.normal,
-                                              fontSize: 16,
+                                              fontSize: 18,
                                               color: Color(0xffffffff),
                                             ),
                                           ),
@@ -441,7 +531,7 @@ class Megamen extends StatelessWidget {
                                           style: TextStyle(
                                             fontWeight: FontWeight.w600,
                                             fontStyle: FontStyle.normal,
-                                            fontSize: 16,
+                                            fontSize: 18,
                                             color: Color(0xFF75B6E5),
                                           ),
                                         ),
@@ -452,7 +542,7 @@ class Megamen extends StatelessWidget {
                                           style: TextStyle(
                                             fontWeight: FontWeight.w600,
                                             fontStyle: FontStyle.normal,
-                                            fontSize: 16,
+                                            fontSize: 18,
                                             color: Color(0xFF75B6E5),
                                           ),
                                         ),
@@ -471,7 +561,7 @@ class Megamen extends StatelessWidget {
                             thickness: 2,
                             indent: 20,
                             endIndent: 0,
-                            color: Color(0xFF275F88),
+                            color: Color(0xFFF3F2F3),
                           ),
                         ),
                         Center(
@@ -487,8 +577,8 @@ class Megamen extends StatelessWidget {
                                   
                                   Image(
                                     image: AssetImage("assets/images/mmt_KalininAS.png"),
-                                    height: 110,
-                                    width: 110,
+                                    height: 130,
+                                    width: 130,
                                     fit: BoxFit.contain,
                                   ),
                                   Padding(
@@ -507,7 +597,7 @@ class Megamen extends StatelessWidget {
                                             style: TextStyle(
                                               fontWeight: FontWeight.w500,
                                               fontStyle: FontStyle.normal,
-                                              fontSize: 16,
+                                              fontSize: 18,
                                               color: Color(0xffffffff),
                                             ),
                                           ),
@@ -519,7 +609,7 @@ class Megamen extends StatelessWidget {
                                           style: TextStyle(
                                             fontWeight: FontWeight.w600,
                                             fontStyle: FontStyle.normal,
-                                            fontSize: 16,
+                                            fontSize: 18,
                                             color: Color(0xFF75B6E5),
                                           ),
                                         ),
@@ -530,7 +620,7 @@ class Megamen extends StatelessWidget {
                                           style: TextStyle(
                                             fontWeight: FontWeight.w600,
                                             fontStyle: FontStyle.normal,
-                                            fontSize: 16,
+                                            fontSize: 18,
                                             color: Color(0xFF75B6E5),
                                           ),
                                         ),
@@ -549,7 +639,7 @@ class Megamen extends StatelessWidget {
                             thickness: 2,
                             indent: 20,
                             endIndent: 0,
-                            color: Color(0xFF275F88),
+                            color: Color(0xFFF3F2F3),
                           ),
                         ),
                         Center(
@@ -565,8 +655,8 @@ class Megamen extends StatelessWidget {
                                   
                                   Image(
                                     image: AssetImage("assets/images/mmt_LunyakovAA.png"),
-                                    height: 110,
-                                    width: 110,
+                                    height: 130,
+                                    width: 130,
                                     fit: BoxFit.contain,
                                   ),
                                   Padding(
@@ -583,7 +673,7 @@ class Megamen extends StatelessWidget {
                                           style: TextStyle(
                                             fontWeight: FontWeight.w500,
                                             fontStyle: FontStyle.normal,
-                                            fontSize: 16,
+                                            fontSize: 18,
                                             color: Color(0xffffffff),
                                           ),
                                         ),
@@ -596,7 +686,7 @@ class Megamen extends StatelessWidget {
                                             style: TextStyle(
                                               fontWeight: FontWeight.w600,
                                               fontStyle: FontStyle.normal,
-                                              fontSize: 16,
+                                              fontSize: 18,
                                               color: Color(0xFF75B6E5),
                                             ),
                                           ),
@@ -614,7 +704,7 @@ class Megamen extends StatelessWidget {
                   ),
                   const Divider(
                     color: Color(0xff000000),
-                    height: 16,
+                    height: 18,
                     thickness: 5,
                     indent: 0,
                     endIndent: 0,
