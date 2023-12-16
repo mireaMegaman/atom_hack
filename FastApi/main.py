@@ -1,5 +1,9 @@
 import io
 import os
+paths = ["/FastApi/photos/results/", "/FastApi/photos/original/" ,"/FastApi/videos/original/"]
+for el in paths:
+    if not os.path.isdir(el):
+        os.mkdir(el)
 import base64
 import sys
 parent_dir = os.path.abspath(os.path.join(os.path.dirname(__file__)))
