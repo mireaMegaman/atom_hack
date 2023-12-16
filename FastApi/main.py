@@ -100,7 +100,7 @@ def image_detection(file: Image64, background: BackgroundTasks):
             class_name_dict=class_name_dict
         )
         imwrite(path_files + 'results/' + f"boxed_image-{names[i]}", ans)
-        json_ans['data'].append({'id': i + 1, 'image_path': names[i], 'autotype' : [''], 'overall count': 3})
+        json_ans['data'].append({'id': i + 1, 'image_path': names[i], 'autotype' : 'потертость - 1\nnahcole - 2\nмикровыступ - 1', 'overall count': 3})
     with open(path_files + 'results/' + 'data.txt', 'w') as outfile:
         json.dump(json_ans, outfile)
     background.add_task(remove_file, path_files + '/results/')
