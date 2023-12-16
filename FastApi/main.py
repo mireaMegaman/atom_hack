@@ -18,12 +18,12 @@ from fastapi import BackgroundTasks, FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import StreamingResponse
 
-from ml.main import seed_everything, draw_boxes
+from ml.main import seed_everything, draw_boxes_sv
 
 
 app = FastAPI(title="Обнаружение дефектов на трубах")
 model = None
-CLASS_NAMES_DICT = None
+class_name_dict = None
 
 
 class Image64(BaseModel):
@@ -54,10 +54,11 @@ app.add_middleware(
 
 @app.on_event("startup")
 def startup_event():
-    global model, CLASS_NAMES_DICT
+    global model, class_name_dict
     seed_everything(seed=42)
-    model = RTDETR('ml/best.pt')
-    CLASS_NAMES_DICT = model.model.names
+    # model = RTDETR('ml/best.pt')
+    model = YOLO('ml/yolov8.pt')
+    class_name_dict = model.model.names
     model.fuse()
 
 
@@ -85,17 +86,21 @@ def image_detection(file: Image64, background: BackgroundTasks):
     path_files = parent_dir + '/photos/'
     images = file.files
     names = file.files_names
-    type_defects = ['Passenger car', 'Motorbike', 'Truck']
     json_ans = {"data": []}
     for i, file in enumerate(images):
         image_as_bytes = str.encode(file)  # convert string to bytes
         img_recovered = base64.b64decode(image_as_bytes)  # decode base64string
         image = Image.open(io.BytesIO(img_recovered))
-        _ = image.save(path_files + 'original/' + f"{names[i]}")
-        preds = model(path_files + 'original/' + f"{names[i]}")
-        ans = draw_boxes(path_files + 'original/' + f"{names[i]}", preds)
+        path_to_photo = path_files + 'original/' + f"{names[i]}"
+        _ = image.save(path_to_photo)
+        preds = model(path_to_photo, conf=0.41)[0]
+        ans = draw_boxes_sv(
+            image_path=path_to_photo,
+            preds=preds,
+            class_name_dict=class_name_dict
+        )
         imwrite(path_files + 'results/' + f"boxed_image-{names[i]}", ans)
-        json_ans['data'].append({'id': i + 1, 'image_path': names[i], 'autotype' : [''], 'pollution': '108, 36', 'count': 3})
+        json_ans['data'].append({'id': i + 1, 'image_path': names[i], 'autotype' : [''], 'overall count': 3})
     with open(path_files + 'results/' + 'data.txt', 'w') as outfile:
         json.dump(json_ans, outfile)
     background.add_task(remove_file, path_files + '/results/')
