@@ -1,6 +1,10 @@
 import io
 import os
 import base64
+import sys
+parent_dir = os.path.abspath(os.path.join(os.path.dirname(__file__)))
+ml = parent_dir + '/ml/'
+sys.path.insert(0, ml)
 from PIL import Image
 from time import sleep
 from typing import List
@@ -16,8 +20,7 @@ from fastapi.responses import StreamingResponse
 
 from ml.main import seed_everything, draw_boxes
 
-parent_dir = os.path.abspath(os.path.join(os.path.dirname(__file__)))
-ml = parent_dir + '/ml/'
+
 app = FastAPI(title="Обнаружение дефектов на трубах")
 model = None
 CLASS_NAMES_DICT = None
@@ -53,7 +56,7 @@ app.add_middleware(
 def startup_event():
     global model, CLASS_NAMES_DICT
     seed_everything(seed=42)
-    model = RTDETR(ml + 'best.pt')
+    model = RTDETR('ml/best.pt')
     CLASS_NAMES_DICT = model.model.names
     model.fuse()
 
@@ -90,7 +93,7 @@ def image_detection(file: Image64, background: BackgroundTasks):
         image = Image.open(io.BytesIO(img_recovered))
         _ = image.save(path_files + 'original/' + f"{names[i]}")
         preds = model(path_files + 'original/' + f"{names[i]}")
-        ans = draw_boxes(preds)
+        ans = draw_boxes(path_files + 'original/' + f"{names[i]}", preds)
         imwrite(path_files + 'results/' + f"boxed_image-{names[i]}", ans)
         json_ans['data'].append({'id': i + 1, 'image_path': names[i], 'autotype' : [''], 'pollution': '108, 36', 'count': 3})
     with open(path_files + 'results/' + 'data.txt', 'w') as outfile:

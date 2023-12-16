@@ -69,12 +69,12 @@ class  MainDeskState extends State<MainDesktop>{
       if (file.isFile) {
         // print(filename);
         final data = file.content as List<int>;
-        if (filename.contains('.jpg') || filename.contains('.jpeg') || filename.contains('.png')) {
+        if (filename.contains('.jpg') || filename.contains('.jpeg') || filename.contains('.png') || filename.contains('.bmp')) {
           if (Platform.isWindows || Platform.isLinux) {
             File('./responce/$filename')
             ..createSync(recursive: true)
             ..writeAsBytesSync(data);
-            if (filename.contains('bbox_')) {
+            if (filename.contains('boxed_')) {
               bboxImgs.add('./responce/$filename');
             }
           }
@@ -633,7 +633,7 @@ class  MainDeskState extends State<MainDesktop>{
                                                                 padding: const EdgeInsets.all(8.0),
                                                                 alignment: Alignment.center,
                                                                 child: const Text(
-                                                                  'Тип',
+                                                                  'Типы',
                                                                   style: TextStyle(
                                                                         fontWeight: FontWeight.w600,
                                                                         fontStyle: FontStyle.normal,
@@ -649,7 +649,7 @@ class  MainDeskState extends State<MainDesktop>{
                                                                 padding: const EdgeInsets.all(8.0),
                                                                 alignment: Alignment.center,
                                                                 child: const Text(
-                                                                  'Координаты',
+                                                                  'Координаты \n(x,y)',
                                                                   style: TextStyle(
                                                                         fontWeight: FontWeight.w600,
                                                                         fontStyle: FontStyle.normal,
@@ -665,7 +665,7 @@ class  MainDeskState extends State<MainDesktop>{
                                                                 padding: const EdgeInsets.all(8.0),
                                                                 alignment: Alignment.center,
                                                                 child: const Text(
-                                                                  'Уверенность модели',
+                                                                  'Общее кол-во объектов',
                                                                   style: TextStyle(
                                                                         fontWeight: FontWeight.w600,
                                                                         fontStyle: FontStyle.normal,
@@ -882,7 +882,7 @@ class  MainDeskState extends State<MainDesktop>{
                                               Padding(
                                                 padding: const EdgeInsets.fromLTRB(0, 5, 0, 5),
                                                 child: Text('Файл: ${selectedRow?.getCells()[1].value.toString() ?? ''}', style: const TextStyle(
-                                                    fontSize: 16,
+                                                    fontSize: 14,
                                                     fontFamily: 'Ubuntu',
                                                     fontWeight: FontWeight.w500,
                                                     fontStyle: FontStyle.normal,
@@ -893,7 +893,7 @@ class  MainDeskState extends State<MainDesktop>{
                                               Padding(
                                                 padding: const EdgeInsets.fromLTRB(0, 5, 0, 5),
                                                 child: Text('Тип: ${selectedRow?.getCells()[2].value.toString() ?? ''}', style: const TextStyle(
-                                                    fontSize: 16,
+                                                    fontSize: 14,
                                                     fontFamily: 'Ubuntu',
                                                     fontWeight: FontWeight.w500,
                                                     fontStyle: FontStyle.normal,
@@ -904,7 +904,7 @@ class  MainDeskState extends State<MainDesktop>{
                                               Padding(
                                                 padding: const EdgeInsets.fromLTRB(0, 5, 0, 5),
                                                 child: Text('Координаты: ${selectedRow?.getCells()[3].value.toString() ?? ''}', style: const TextStyle(
-                                                    fontSize: 16,
+                                                    fontSize: 14,
                                                     fontFamily: 'Ubuntu',
                                                     fontWeight: FontWeight.w500,
                                                     fontStyle: FontStyle.normal,
@@ -915,7 +915,7 @@ class  MainDeskState extends State<MainDesktop>{
                                               Padding(
                                                 padding: const EdgeInsets.fromLTRB(0, 5, 0, 5),
                                                 child: Text('Уверенность модели: ${selectedRow?.getCells()[4].value.toString() ?? ''}', style: const TextStyle(
-                                                    fontSize: 16,
+                                                    fontSize: 14,
                                                     fontFamily: 'Ubuntu',
                                                     fontWeight: FontWeight.w500,
                                                     fontStyle: FontStyle.normal,
@@ -924,7 +924,18 @@ class  MainDeskState extends State<MainDesktop>{
                                                 ),
                                               ),
                                               const Padding(
-                                                padding: EdgeInsets.fromLTRB(0, 70, 0, 5),
+                                                padding: EdgeInsets.fromLTRB(0, 10, 0, 5),
+                                                child: Text('Классы:\nне дефект - not defect\nпотертость - scuffing\nчерная точка - black spot\nплена - crack\nмаркер - marker\nгрязь - mud\nнакол - nahcole\nн.д. накол - n.d. nahcole\nмикровыс уп - microbump\nн.д. микровыступ - n.d. microbump\nвмятина - dent\nмех.повреждение - mech.damage\nриска - groove\nцарапина с волчком - scratch ', style: TextStyle(
+                                                    fontSize: 9,
+                                                    fontFamily: 'Ubuntu',
+                                                    fontWeight: FontWeight.w500,
+                                                    fontStyle: FontStyle.normal,
+                                                    color: Color.fromARGB(255, 197, 194, 194)
+                                                  ),
+                                                ),
+                                              ),
+                                              const Padding(
+                                                padding: EdgeInsets.fromLTRB(0, 10, 0, 0),
                                                 child: Text('Отметьте ниже - верно ли предсказание:', style: TextStyle(
                                                     fontSize: 16,
                                                     fontFamily: 'Ubuntu',
@@ -940,7 +951,7 @@ class  MainDeskState extends State<MainDesktop>{
                                                 mainAxisSize: MainAxisSize.min,
                                                 children: [
                                                   Padding(
-                                                    padding: const EdgeInsets.all(3),
+                                                    padding: const EdgeInsets.all(0),
                                                     child: MaterialButton(
                                                       onPressed: ()  {
                                                         
@@ -1107,7 +1118,7 @@ class NewDataSource extends DataGridSource {
         padding: const EdgeInsets.all(8.0),
         child: Text(
           e.value.toString(), 
-          // style: getTextStyle(),
+          style: getTextStyle(),
           ),
       );
     }).toList());
