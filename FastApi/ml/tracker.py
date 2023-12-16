@@ -1,5 +1,6 @@
 import supervision as sv
 from tqdm.auto import tqdm
+import cv2
 
 
 def tracking(
@@ -15,10 +16,9 @@ def tracking(
 
     count = 0
     box_annotator = sv.BoxAnnotator(
-        color=sv.ColorPalette(),
-        thickness=4,
-        text_thickness=4,
-        text_scale=2
+        thickness=2,
+        text_thickness=2,
+        text_scale=1
     )
 
     with sv.VideoSink(target_path=target_path, video_info=video_info) as sink:
@@ -38,6 +38,12 @@ def tracking(
             )
 
             # надо на кадр нарисовать bbox и вывести
+            cv2.imshow(frame)
 
             if save_record:
                 sink.write_frame(frame)
+
+            if cv2.waitKey(0):
+                break
+
+    cv2.destroyAllWindows()

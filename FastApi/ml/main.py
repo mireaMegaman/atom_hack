@@ -6,6 +6,7 @@ import numpy as np
 
 from ultralytics import RTDETR, YOLO
 import supervision as sv
+from tracker import tracking
 
 
 def seed_everything(seed: int) -> None:
@@ -56,10 +57,28 @@ if __name__ == "__main__":
     class_name_dict = model.model.names
 
     path_to_photo = ''
+    path_to_video = ''
+    path_to_save_record = ''
+
+    video_info = sv.VideoInfo.from_video_path(path_to_video)
+    generator = sv.get_video_frames_generator(path_to_video)
+    tracker = sv.ByteTrack()
+
     preds = model(path_to_photo, conf=0.41)[0]
 
     ans = draw_boxes_sv(
         image_path=path_to_photo,
         preds=preds,
         class_name_dict=class_name_dict
+    )
+
+    # нужен трекинг - врубай это
+    tracking(
+        tracker=tracker,
+        model=model,
+        target_path=path_to_save_record,
+        video_info=video_info,
+        frames_generator=generator,
+        DELAY=2,
+        save_record=True
     )
