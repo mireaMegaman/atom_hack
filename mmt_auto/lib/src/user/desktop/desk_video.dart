@@ -3,15 +3,17 @@ import 'dart:io';
 import 'dart:convert';
 // base flutter
 import 'package:flutter/material.dart';
+import 'package:media_kit/media_kit.dart';
 // external dependencies
 import 'package:path/path.dart';
 import 'package:archive/archive.dart';
 import 'package:http/http.dart' as http;
 import 'package:image_picker/image_picker.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:media_kit_video/media_kit_video.dart';
+
 // app pages
 import 'package:mmt_auto/src/user/mmt.dart';
-// import 'package:mmt_auto/src/user/desktop/desk_rtsp.dart';
 import 'package:mmt_auto/src/user/desktop/desk_image.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
@@ -50,6 +52,33 @@ class  VideoDeskState extends State<VideoDesktop>{
       throw Exception('Could not launch $repository');
     }
   }
+// ---------------------------------------------------------------------------------------------- //
+// ---------------------------------------------------------------------------------------------- //
+// video player from media kit
+  // control playback
+  late final player = Player();
+  // handle video output from [Player]
+  late final controller = VideoController(
+    player,
+    configuration: const VideoControllerConfiguration(
+      enableHardwareAcceleration: true,      // default: true
+    ),
+  );
+
+  var playable = Media(' ');
+
+  @override
+  void initState() {
+    super.initState();
+    // Play a [Media] or [Playlist].
+    player.open(playable);
+  }
+
+  @override
+  void dispose() {
+    player.dispose();
+    super.dispose();
+  }
 
 // ---------------------------------------------------------------------------------------------- //
 // ---------------------------------------------------------------------------------------------- //
@@ -73,9 +102,18 @@ class  VideoDeskState extends State<VideoDesktop>{
         }
         else {
           if (Platform.isWindows || Platform.isLinux) {
-            File('responce/$filename')
+            File('./responce/$filename')
             ..createSync(recursive: true)
             ..writeAsBytesSync(data);
+            File file = File("./responce/$filename");
+            print(file.absolute.path);
+            if (filename.contains('.mp4')) {
+              playable = Media(file.absolute.path);
+              setState(() {
+                _isLoading = false;
+                player.open(playable);
+              });                
+            }
           }
         }
       } else {
@@ -283,14 +321,14 @@ class  VideoDeskState extends State<VideoDesktop>{
                 controller: _horizontal,
                 trackVisibility: true,
                 thickness: 7,
-                thumbColor: const Color.fromARGB(47, 39, 176, 67),
+                thumbColor: const Color(0xFF275F88),
                 radius: const Radius.circular(20),
                 child: RawScrollbar(
                   controller: _vertical,
                   // thumbVisibility: true,
                   trackVisibility: true,
                   thickness: 7,
-                  thumbColor: const Color.fromARGB(47, 39, 176, 67),
+                  thumbColor: const Color(0xFF275F88),
                   radius: const Radius.circular(20),
                   notificationPredicate: (notif) => notif.depth == 1,
                   child: SingleChildScrollView(
@@ -357,7 +395,7 @@ class  VideoDeskState extends State<VideoDesktop>{
                                   ),
                                 ),
                                 Container(
-                                  height: 470,
+                                  height: 570,
                                   width: MediaQuery.of(context).size.width * 0.95,
                                   margin: const EdgeInsets.all(20.0),
                                   child: Row(
@@ -389,115 +427,12 @@ class  VideoDeskState extends State<VideoDesktop>{
                                                           Padding(
                                                             padding: const EdgeInsets.fromLTRB(0, 10, 0, 20),
                                                             child: 
-                                                            SizedBox(
-                                                              width:730,
-                                                              height: 700,
-                                                              child: Stack(
-                                                                children: [                           
-                                                                  PageView.builder(
-                                                                    controller: _imageController ,
-                                                                    scrollDirection: Axis.horizontal,
-                                                                    itemCount: bboxImgs.length,
-                                                                    itemBuilder: (context, index) {
-                                                                      return Align(
-                                                                        alignment: Alignment.topCenter,
-                                                                        child: Padding(
-                                                                          padding: const EdgeInsets.symmetric(
-                                                                              vertical: 39, horizontal: 0),
-                                                                          child: ClipRRect(
-                                                                            borderRadius: BorderRadius.circular(5.0),
-                                                                            child:
-                                                                                Column(
-                                                                                  children: [
-                                                                                    Image.file(File(bboxImgs[index]),
-                                                                                              height: 250,
-                                                                                              width: MediaQuery.of(context).size.width * 1.15,
-                                                                                              fit: BoxFit.contain,
-                                                                                    ),
-                                                                                    Text(basename(bboxImgs[index].toString()), 
-                                                                                    style: const TextStyle(
-                                                                                      fontWeight: FontWeight.w400,
-                                                                                      fontStyle: FontStyle.normal,
-                                                                                      fontSize: 18,
-                                                                                      color: Color(0xFFF3F2F3),
-                                                                                    ),
-                                                                                    ),
-                                                                                    Row(
-                                                                                      mainAxisAlignment: MainAxisAlignment.center,
-                                                                                      crossAxisAlignment: CrossAxisAlignment.center,
-                                                                                      mainAxisSize: MainAxisSize.min,
-                                                                                      children: [
-                                                                                        Padding(
-                                                                                          padding: const EdgeInsets.fromLTRB(8, 0, 16, 0),
-                                                                                          child:  IconButton(
-                                                                                            icon: const Icon(
-                                                                                              Icons.keyboard_double_arrow_left_rounded,
-                                                                                              color: Color(0xFFF3F2F3),
-                                                                                              size: 30,
-                                                                                            ),
-                                                                                            onPressed: () {
-                                                                                              if (_imageController.hasClients) {
-                                                                                                _imageController.animateToPage(
-                                                                                                  index-1,
-                                                                                                  duration: const Duration(milliseconds: 400),
-                                                                                                  curve: Curves.easeInOut,
-                                                                                                );
-                                                                                              }
-                                                                                            },
-                                                                                          ),
-                                                                                        ),
-                                                                                        Padding(
-                                                                                          padding: const EdgeInsets.fromLTRB(8, 0, 16, 0),
-                                                                                          child:  IconButton(
-                                                                                            icon: const Icon(
-                                                                                              Icons.keyboard_double_arrow_right_rounded ,
-                                                                                              color: Color(0xFFF3F2F3),
-                                                                                              size: 30,
-                                                                                            ),
-                                                                                            onPressed: () {
-                                                                                              if (_imageController.hasClients) {
-                                                                                                _imageController.animateToPage(
-                                                                                                  index+1,
-                                                                                                  duration: const Duration(milliseconds: 400),
-                                                                                                  curve: Curves.easeInOut,
-                                                                                                );
-                                                                                              }
-                                                                                            },
-                                                                                          ),
-                                                                                        ),
-                                                                                      ],
-                                                                                    ),
-                                                                                  ],
-                                                                                ),
-                                                                          ),
-                                                                        ),
-                                                                      );
-                                                                    },
-                                                                  ),
-                                                                  Align(
-                                                                    alignment: Alignment.bottomCenter,
-                                                                    child: Padding(
-                                                                      padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
-                                                                      child: SmoothPageIndicator(
-                                                                        controller: _imageController ,
-                                                                        count: bboxImgs.length,
-                                                                        axisDirection: Axis.horizontal,
-                                                                        effect: const ExpandingDotsEffect(
-                                                                          dotColor: Color.fromARGB(255, 14, 46, 71),
-                                                                          activeDotColor: Color(0xFF75B6E5),
-                                                                          dotHeight: 10,
-                                                                          dotWidth: 10,
-                                                                          radius: 16,
-                                                                          spacing: 7,
-                                                                          expansionFactor: 2,
-                                                                        ),
-                                                                      ),
-                                                                    ),
-                                                                  ),
-                                                                  const Align(
+                                                            Column(
+                                                              children: [
+                                                                const Align(
                                                                     alignment: Alignment.topCenter,
                                                                     child: Padding(
-                                                                      padding: EdgeInsets.fromLTRB(20, 0, 0, 0),
+                                                                      padding: EdgeInsets.fromLTRB(20, 0, 0, 20),
                                                                       child: Row(
                                                                         children: [
                                                                         Text(
@@ -507,15 +442,20 @@ class  VideoDeskState extends State<VideoDesktop>{
                                                                         style: TextStyle(
                                                                           fontWeight: FontWeight.w600,
                                                                           fontStyle: FontStyle.normal,
-                                                                          fontSize: 14,
+                                                                          fontSize: 18,
                                                                           color: Color(0xFFF3F2F3),
                                                                         ),
                                                                       ), ],
                                                                       ),
                                                                     ),
-                                                                  ),  
-                                                                ],
-                                                              ),
+                                                                ),  
+                                                                SizedBox(
+                                                                  width: 700,
+                                                                  height: 450,
+                                                                  child: 
+                                                                  Video(controller: controller),
+                                                                ),
+                                                              ],
                                                             ),
                                                           ),
                                                           ],
@@ -535,11 +475,6 @@ class  VideoDeskState extends State<VideoDesktop>{
                               ],
                             ),
                           ),
-// ---------------------------------------------------------------------------------------------- //
-// ---------------------------------------------------------------------------------------------- //
-                          
-// ---------------------------------------------------------------------------------------------- //
-// ---------------------------------------------------------------------------------------------- //
                         ],
                       )
                     ),

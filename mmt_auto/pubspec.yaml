@@ -18,6 +18,9 @@ dependencies:
   http: ^1.1.0
   # ----- video ----- #
   media_kit: ^1.1.10+1
+  media_kit_video: ^1.2.4
+  media_kit_libs_video: ^1.0.4
+  # media_kit_libs_audio: ^1.0.4
   # ----- system ----- #
   path: ^1.8.3
   open_file: ^3.3.2
