@@ -8,6 +8,8 @@ from ultralytics import RTDETR, YOLO
 import supervision as sv
 from tracker import tracking
 
+from typing import Dict
+
 
 def seed_everything(seed: int) -> None:
     """
@@ -52,9 +54,20 @@ def draw_boxes_sv(
     return annotated_image
 
 
+def count_classes(preds, class_name_dict):
+    count_class = dict()
+
+    class_id_detections = preds.boxes.cls.tolist()
+
+    for id in class_id_detections:
+        count_class[class_name_dict[int(id)]] = count_class.get(int(id), 0) + 1
+
+    return count_class
+
+
 if __name__ == "__main__":
     model = YOLO(...) # путь до елки/детра
-    class_name_dict = model.model.names
+    class_name_dict = model.names
 
     path_to_photo = ''
     path_to_video = ''
