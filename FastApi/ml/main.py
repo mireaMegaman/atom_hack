@@ -45,6 +45,6 @@ if __name__ == "__main__":
     model = YOLO(...) # путь до детра
 
     path_to_photo = ''
-    preds = model(path_to_photo)
+    preds = model(path_to_photo, conf=0.41)[0]
 
-    ans = draw_boxes(preds)
+    ans = draw_boxes(path_to_photo, preds, model)
