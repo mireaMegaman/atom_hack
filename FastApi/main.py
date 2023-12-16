@@ -53,7 +53,7 @@ app.add_middleware(
 def startup_event():
     global model, CLASS_NAMES_DICT
     seed_everything(seed=42)
-    model = RTDETR('ml\\best.pt')
+    model = RTDETR(ml + 'best.pt')
     CLASS_NAMES_DICT = model.model.names
     model.fuse()
 
