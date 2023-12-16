@@ -141,17 +141,17 @@ class  MainDeskState extends State<MainDesktop>{
       List<dynamic> dataMap = jsonDecode(jsonEncode(responceMap["data"]));
       List<List> dataList = dataMap
             .map((element) => [element['id'], element['image_path'], element['autotype'], 
-                                element['pollution'], element['count']]).toList();
+                                element['count']]).toList();
       setState(() {
         flag = true;
         _isLoading = false;
         newDataList = dataMap; 
         newData = [];
-        popup = 'файл-короткое-длинное-вооруженные\n';
+        popup = 'Таблица предсказаний:\nid - файл - дефекты\n';
         for (var i = 0; i < dataList.length; i++) {
           newData.add(NewData(dataList[i][0].toString(), dataList[i][1].toString(), 
-                              dataList[i][2].toString(), dataList[i][3].toString(), dataList[i][4].toString()));
-          popup += '${dataList[i][0]}             ${dataList[i][1]}              ${dataList[i][2]}                 ${dataList[i][3]}';
+                              dataList[i][2].toString(), dataList[i][3].toString()));
+          popup += '${dataList[i][0]} - ${dataList[i][1]} - ${dataList[i][3]}\n\nТипы дефектов:\n${dataList[i][2]}';
           popup += '\n';
         }
         popup += '\n';
@@ -219,7 +219,7 @@ class  MainDeskState extends State<MainDesktop>{
                   color: Color(0xFFF3F2F3),
                 )
               ),
-          backgroundColor: const Color(0xFF275F88),
+          backgroundColor: const Color.fromARGB(255, 14, 24, 28),
           content: const Text("Файл предсказания модели не существует!", 
                             style: TextStyle(
                               fontWeight: FontWeight.w500,
@@ -266,7 +266,7 @@ class  MainDeskState extends State<MainDesktop>{
                     color: Color(0xFFF3F2F3),
                   )
                 ),
-            backgroundColor: const Color(0xFF275F88),
+            backgroundColor: const Color.fromARGB(255, 14, 24, 28),
             content: Text(fileContext, 
                               style: const TextStyle(
                                 fontWeight: FontWeight.w500,
@@ -309,7 +309,7 @@ class  MainDeskState extends State<MainDesktop>{
                     color: Color(0xFFF3F2F3),
                   )
                 ),
-            backgroundColor: const Color(0xFF275F88),
+            backgroundColor: const Color.fromARGB(255, 14, 24, 28),
             content: const Text("Файл предсказания пуст!", 
                               style: TextStyle(
                                 fontWeight: FontWeight.w500,
@@ -431,7 +431,7 @@ class  MainDeskState extends State<MainDesktop>{
                   onPressed: () {
                     Navigator.push(
                         context,
-                        MaterialPageRoute(builder: (context) => Megamen()),
+                        MaterialPageRoute(builder: (context) => const Megamen()),
                     );
                   }, 
                   child: 
@@ -612,7 +612,7 @@ class  MainDeskState extends State<MainDesktop>{
                                                             )
                                                         ),
                                                         GridColumn(
-                                                            columnName: 'file',
+                                                            columnName: 'image_path',
                                                             label: Container(
                                                                 padding: const EdgeInsets.all(8.0),
                                                                 alignment: Alignment.center,
@@ -633,7 +633,7 @@ class  MainDeskState extends State<MainDesktop>{
                                                                 padding: const EdgeInsets.all(8.0),
                                                                 alignment: Alignment.center,
                                                                 child: const Text(
-                                                                  'Типы',
+                                                                  'Общее кол-во дефектов',
                                                                   style: TextStyle(
                                                                         fontWeight: FontWeight.w600,
                                                                         fontStyle: FontStyle.normal,
@@ -644,28 +644,12 @@ class  MainDeskState extends State<MainDesktop>{
                                                             )
                                                         ),
                                                         GridColumn(
-                                                            columnName: 'polution',
+                                                            columnName: 'overall_count',
                                                             label: Container(
                                                                 padding: const EdgeInsets.all(8.0),
                                                                 alignment: Alignment.center,
                                                                 child: const Text(
-                                                                  'Координаты \n(x,y)',
-                                                                  style: TextStyle(
-                                                                        fontWeight: FontWeight.w600,
-                                                                        fontStyle: FontStyle.normal,
-                                                                        fontSize: 14,
-                                                                        color: Color(0xFFF3F2F3),
-                                                                      ),
-                                                                )
-                                                            )
-                                                        ),
-                                                        GridColumn(
-                                                            columnName: 'count',
-                                                            label: Container(
-                                                                padding: const EdgeInsets.all(8.0),
-                                                                alignment: Alignment.center,
-                                                                child: const Text(
-                                                                  'Общее кол-во объектов',
+                                                                  'Найденные типы дефектов',
                                                                   style: TextStyle(
                                                                         fontWeight: FontWeight.w600,
                                                                         fontStyle: FontStyle.normal,
@@ -755,7 +739,7 @@ class  MainDeskState extends State<MainDesktop>{
                               mainAxisSize: MainAxisSize.min,
                               children: [
                                 Container(
-                                  height: 470,
+                                  height: 570,
                                   width: 650,
                                   margin: const EdgeInsets.all(20.0),
                                   decoration: BoxDecoration(
@@ -864,7 +848,7 @@ class  MainDeskState extends State<MainDesktop>{
                                         ),
                                       ),
                                       Container(
-                                        height: 470,
+                                        height: 570,
                                         width: 250,
                                         decoration: const BoxDecoration(
                                           border: Border(
@@ -882,7 +866,7 @@ class  MainDeskState extends State<MainDesktop>{
                                               Padding(
                                                 padding: const EdgeInsets.fromLTRB(0, 5, 0, 5),
                                                 child: Text('Файл: ${selectedRow?.getCells()[1].value.toString() ?? ''}', style: const TextStyle(
-                                                    fontSize: 14,
+                                                    fontSize: 16,
                                                     fontFamily: 'Ubuntu',
                                                     fontWeight: FontWeight.w500,
                                                     fontStyle: FontStyle.normal,
@@ -892,30 +876,8 @@ class  MainDeskState extends State<MainDesktop>{
                                               ),
                                               Padding(
                                                 padding: const EdgeInsets.fromLTRB(0, 5, 0, 5),
-                                                child: Text('Тип: ${selectedRow?.getCells()[2].value.toString() ?? ''}', style: const TextStyle(
-                                                    fontSize: 14,
-                                                    fontFamily: 'Ubuntu',
-                                                    fontWeight: FontWeight.w500,
-                                                    fontStyle: FontStyle.normal,
-                                                    color: Color.fromARGB(255, 197, 194, 194)
-                                                  ),
-                                                ),
-                                              ),
-                                              Padding(
-                                                padding: const EdgeInsets.fromLTRB(0, 5, 0, 5),
-                                                child: Text('Координаты: ${selectedRow?.getCells()[3].value.toString() ?? ''}', style: const TextStyle(
-                                                    fontSize: 14,
-                                                    fontFamily: 'Ubuntu',
-                                                    fontWeight: FontWeight.w500,
-                                                    fontStyle: FontStyle.normal,
-                                                    color: Color.fromARGB(255, 197, 194, 194)
-                                                  ),
-                                                ),
-                                              ),
-                                              Padding(
-                                                padding: const EdgeInsets.fromLTRB(0, 5, 0, 5),
-                                                child: Text('Уверенность модели: ${selectedRow?.getCells()[4].value.toString() ?? ''}', style: const TextStyle(
-                                                    fontSize: 14,
+                                                child: Text('Всего дефектов: ${selectedRow?.getCells()[2].value.toString() ?? ''}', style: const TextStyle(
+                                                    fontSize: 16,
                                                     fontFamily: 'Ubuntu',
                                                     fontWeight: FontWeight.w500,
                                                     fontStyle: FontStyle.normal,
@@ -924,9 +886,9 @@ class  MainDeskState extends State<MainDesktop>{
                                                 ),
                                               ),
                                               const Padding(
-                                                padding: EdgeInsets.fromLTRB(0, 10, 0, 5),
-                                                child: Text('Классы:\nне дефект - not defect\nпотертость - scuffing\nчерная точка - black spot\nплена - crack\nмаркер - marker\nгрязь - mud\nнакол - nahcole\nн.д. накол - n.d. nahcole\nмикровыс уп - microbump\nн.д. микровыступ - n.d. microbump\nвмятина - dent\nмех.повреждение - mech.damage\nриска - groove\nцарапина с волчком - scratch ', style: TextStyle(
-                                                    fontSize: 9,
+                                                padding: EdgeInsets.fromLTRB(0, 5, 0, 5),
+                                                child: Text('Типы дефектов:', style: TextStyle(
+                                                    fontSize: 16,
                                                     fontFamily: 'Ubuntu',
                                                     fontWeight: FontWeight.w500,
                                                     fontStyle: FontStyle.normal,
@@ -934,8 +896,29 @@ class  MainDeskState extends State<MainDesktop>{
                                                   ),
                                                 ),
                                               ),
+                                              Container(
+                                                margin: const EdgeInsets.fromLTRB(10, 5, 10, 5),
+                                                decoration: BoxDecoration(
+                                                  border: Border.all(color: const Color(0xFF75B6E5)),
+                                                  color: const Color.fromARGB(33, 85, 86, 87),
+                                                  borderRadius: const BorderRadius.all(Radius.circular(7)),
+                                                ),
+                                                child: Center(
+                                                  child: Padding(
+                                                    padding: const EdgeInsets.fromLTRB(0, 5, 0, 5),
+                                                    child: Text(selectedRow?.getCells()[3].value.toString() ?? '', style: const TextStyle(
+                                                        fontSize: 16,
+                                                        fontFamily: 'Ubuntu',
+                                                        fontWeight: FontWeight.w500,
+                                                        fontStyle: FontStyle.normal,
+                                                        color: Color.fromARGB(255, 197, 194, 194)
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ),
+                                              ),
                                               const Padding(
-                                                padding: EdgeInsets.fromLTRB(0, 10, 0, 0),
+                                                padding: EdgeInsets.fromLTRB(0, 50, 0, 10),
                                                 child: Text('Отметьте ниже - верно ли предсказание:', style: TextStyle(
                                                     fontSize: 16,
                                                     fontFamily: 'Ubuntu',
@@ -1062,12 +1045,11 @@ class  MainDeskState extends State<MainDesktop>{
 // ---------------------------------------------------------------------------------------------- //
 // table data class
 class NewData {
-  NewData(this.id, this.file, this.autotype, this.polution, this.count);
+  NewData(this.id, this.file, this.autotype, this.count);
   final String id;
   final String file;
   final String count;
   final String autotype;
-  final String polution;
 }
 
 
@@ -1075,9 +1057,9 @@ List<NewData> newData = <NewData>[];
 late NewDataSource newDataSRC;
 List<NewData> getNewDataData() {
       return [
-        NewData('10001', 'James', 'Project Leeeeead', '20000', '34567'),
-        NewData('10002', 'Kathryn', 'Manager', '30000', '45678'),
-        NewData('10003', 'Lara', 'Developer', '15000', '34567'),
+        NewData('10001', 'James', 'Project Leeeeead', '20000'),
+        NewData('10002', 'Kathryn', 'Manager', '30000'),
+        NewData('10003', 'Lara', 'Developer', '15000'),
       ];
     }
 
@@ -1087,10 +1069,11 @@ class NewDataSource extends DataGridSource {
     _NewData_Data = NewData_Data
         .map<DataGridRow>((e) => DataGridRow(cells: [
               DataGridCell<String>(columnName: 'id', value: e.id),
-              DataGridCell<String>(columnName: 'file', value: e.file),
+              DataGridCell<String>(columnName: 'image_path', value: e.file),
+              DataGridCell<String>(columnName: 'overall_count', value: e.count),
               DataGridCell<String>(columnName: 'autotype', value: e.autotype),
-              DataGridCell<String>(columnName: 'polution', value: e.polution),
-              DataGridCell<String>(columnName: 'count', value: e.count),
+              // DataGridCell<String>(columnName: 'polution', value: e.polution),
+              
             ]))
         .toList();
   }
@@ -1103,7 +1086,7 @@ class NewDataSource extends DataGridSource {
         cells: row.getCells().map<Widget>((e) {
       TextStyle? getTextStyle() {
         if (e.columnName == 'id') {
-          return const TextStyle(color: Color.fromARGB(255, 255, 64, 64));
+          return const TextStyle(color: Color.fromARGB(255, 255, 255, 255),fontWeight: FontWeight.w400,);
         } else {
           return const TextStyle(
                   fontWeight: FontWeight.w600,

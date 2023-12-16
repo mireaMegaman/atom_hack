@@ -57,7 +57,7 @@ def startup_event():
     global model, class_name_dict
     seed_everything(seed=42)
     # model = RTDETR('ml/best.pt')
-    model = YOLO('ml/yolov8.pt')
+    model = YOLO('ml/yolov8_s.pt')
     class_name_dict = model.model.names
     model.fuse()
 
@@ -100,7 +100,7 @@ def image_detection(file: Image64, background: BackgroundTasks):
             class_name_dict=class_name_dict
         )
         imwrite(path_files + 'results/' + f"boxed_image-{names[i]}", ans)
-        json_ans['data'].append({'id': i + 1, 'image_path': names[i], 'autotype' : 'потертость - 1\nnahcole - 2\nмикровыступ - 1', 'overall count': 3})
+        json_ans['data'].append({'id': i + 1, 'image_path': names[i], 'autotype' : 'потертость - 1\nnahcole - 2\nмикровыступ - 1', 'count': '3'})
     with open(path_files + 'results/' + 'data.txt', 'w') as outfile:
         json.dump(json_ans, outfile)
     background.add_task(remove_file, path_files + '/results/')

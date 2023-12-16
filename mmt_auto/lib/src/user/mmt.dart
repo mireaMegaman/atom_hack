@@ -8,9 +8,9 @@ final Uri gun = Uri.parse('https://github.com/mireaMegaman/perm_hack');
 final Uri train = Uri.parse('https://github.com/mireaMegaman/sochi_hack');
 final Uri ocr = Uri.parse('https://github.com/mireaMegaman/nn_hackaton');
 
-final Uri atom_yolo = Uri.parse('https://github.com/mireaMegaman/atom_hack');
-final Uri atom_flutter = Uri.parse('https://github.com/mireaMegaman/atom_hack');
-final Uri atom_fastapi = Uri.parse('https://github.com/mireaMegaman/atom_hack');
+final Uri atom_yolo = Uri.parse('https://github.com/mireaMegaman/atom_hack?tab=readme-ov-file#title2');
+final Uri atom_flutter = Uri.parse('https://github.com/mireaMegaman/atom_hack?tab=readme-ov-file#title3');
+final Uri atom_fastapi = Uri.parse('https://github.com/mireaMegaman/atom_hack?tab=readme-ov-file#title4');
 
   Future<void> _gun() async {
     if (!await launchUrl(gun)) {

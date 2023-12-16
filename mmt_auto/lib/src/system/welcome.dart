@@ -6,7 +6,7 @@ import 'package:mmt_auto/src/user/mobile/mobile_image.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 
-final Uri githubMMT = Uri.parse('https://github.com/mireaMegaman/perm_hack');
+final Uri githubMMT = Uri.parse('https://github.com/mireaMegaman/atom_hack');
 
 
 class WelcomeScreen extends StatelessWidget {
@@ -43,8 +43,8 @@ class WelcomeScreen extends StatelessWidget {
                           child: Align(
                             alignment: Alignment.topCenter,
                             child:                    Image(
-                              image: AssetImage("assets/images/MinPrir.png"),
-                              height: 150,
+                              image: AssetImage("assets/images/rosatom.png"),
+                              height: 250,
                               width: 250,
                               fit: BoxFit.contain,
                             ),
@@ -76,7 +76,7 @@ class WelcomeScreen extends StatelessWidget {
                               const Padding(
                                 padding: EdgeInsets.fromLTRB(0, 0, 0, 15),
                                 child: Text(
-                                  "MMT-AUTO",
+                                  "MMT-ATOM",
                                   textAlign: TextAlign.start,
                                   overflow: TextOverflow.clip,
                                   style: TextStyle(
@@ -94,7 +94,7 @@ class WelcomeScreen extends StatelessWidget {
                               const Padding(
                                 padding: EdgeInsets.fromLTRB(0, 0, 0, 30),
                                 child: Text(
-                                  "Продукт разработан совместно с \n'Минприроды России' \n\nОбработка видеофиксации транспорта",
+                                  "Продукт разработан совместно с \n'РОСАТОМ и codenrock' \n\nДетектор производственных дефектов",
                                   textAlign: TextAlign.start,
                                   overflow: TextOverflow.clip,
                                   style: TextStyle(
