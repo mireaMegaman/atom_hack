@@ -1,4 +1,5 @@
 import os
+import cv2
 import torch
 import random
 import numpy as np
@@ -22,21 +23,17 @@ def seed_everything(seed: int) -> None:
     torch.backends.cudnn.deterministic = True
 
 
-def draw_boxes_sv(image, preds, CLASS_NAMES_DICT):
+def draw_boxes_sv(image_path, preds, model):
+    image = cv2.imread(image_path)
     box_annotator = sv.BoxAnnotator(
-        color=sv.ColorPalette(),
-        thickness=4,
-        text_thickness=4,
-        text_scale=2
+        thickness=2,
+        text_thickness=2,
+        text_scale=1
     )
     detections = sv.Detections.from_ultralytics(preds)
-    labels = [
-        f"{CLASS_NAMES_DICT[class_id]} {confidence:0.2f}"
-        for _, confidence, class_id, tracker_id
-        in detections
-    ]
+    labels = [f"{model.names[class_id]} {confidence:0.2f}" for _, _, confidence, class_id, _ in detections]
     annotated_image = box_annotator.annotate(
-        frame=image,
+        image,
         detections=detections,
         labels=labels
     )
@@ -44,13 +41,10 @@ def draw_boxes_sv(image, preds, CLASS_NAMES_DICT):
     return annotated_image
 
 
-
 if __name__ == "__main__":
-    model = RTDETR(...) # путь до детра
-    CLASS_NAMES_DICT = model.model.names
+    model = YOLO(...) # путь до детра
 
     path_to_photo = ''
     preds = model(path_to_photo)
-
 
     ans = draw_boxes(preds)
