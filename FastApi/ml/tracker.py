@@ -36,14 +36,5 @@ def tracking(
                 detections=detections,
                 labels=labels
             )
-
-            # надо на кадр нарисовать bbox и вывести
-            cv2.imshow(frame)
-
             if save_record:
                 sink.write_frame(frame)
-
-            if cv2.waitKey(0):
-                break
-
-    cv2.destroyAllWindows()

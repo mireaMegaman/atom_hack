@@ -8,17 +8,17 @@ sys.path.insert(0, ml)
 from PIL import Image
 from time import sleep
 from typing import List
-from random import choice
 from zipfile import ZipFile, ZIP_DEFLATED
 import json
 from ultralytics import YOLO, RTDETR
+import supervision as sv
 from cv2 import imwrite
 from pydantic import BaseModel
 from fastapi import BackgroundTasks, FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import StreamingResponse
 
-from ml.main import seed_everything, draw_boxes_sv
+from ml.main import seed_everything, draw_boxes_sv, tracking, count_classes
 
 
 app = FastAPI(title="Обнаружение дефектов на трубах")
@@ -93,33 +93,48 @@ def image_detection(file: Image64, background: BackgroundTasks):
         image = Image.open(io.BytesIO(img_recovered))
         path_to_photo = path_files + 'original/' + f"{names[i]}"
         _ = image.save(path_to_photo)
+        
         preds = model(path_to_photo, conf=0.41)[0]
         ans = draw_boxes_sv(
             image_path=path_to_photo,
             preds=preds,
             class_name_dict=class_name_dict
         )
+
+        count_types = count_classes(preds, class_name_dict)
+        autotypes = ''
+        for key, value in count_types.items():
+            if value > 0:
+                autotypes += f"{key} - {value}\n"
+        
         imwrite(path_files + 'results/' + f"boxed_image-{names[i]}", ans)
-        json_ans['data'].append({'id': i + 1, 'image_path': names[i], 'autotype' : 'потертость - 1\nnahcole - 2\nмикровыступ - 1', 'count': '3'})
+        json_ans['data'].append({'id': i + 1, 'image_path': names[i], 'autotype' : autotypes, 'count': '3'})
     with open(path_files + 'results/' + 'data.txt', 'w') as outfile:
         json.dump(json_ans, outfile)
     background.add_task(remove_file, path_files + '/results/')
     return to_zip(path_files + 'results/')
 
 
-# @app.post('/video')
-# def video_traking(input: Video):
-#     json_ans = {"data": [{'id': 1, 'image_path': input.file, 'autotype' : 'car', 'pollution': 57, 'count': 3}]}
-#     output_path_file = parent_dir + '/videos/results/' + f"result_{input.file}.mp4"
-#     tracking(
-#         model=model,
-#         conf=0.4,
-#         input_filename=input.file,
-#         output_filename=output_path_file
-#     )
-#     with open(parent_dir + '/videos/results/' + 'data.txt', 'w') as outfile:
-#         json.dump(json_ans, outfile)
-#     return to_zip(parent_dir + '/videos/results/')
+@app.post('/video')
+def video_traking(input: Video):
+    video_info = sv.VideoInfo.from_video_path(input.file)
+    generator = sv.get_video_frames_generator(input.file)
+    tracker = sv.ByteTrack()
+    new_name = os.path.basename(input.file)
+    output_path_file = parent_dir + '/videos/results/' + f"{new_name}"
+    tracking(
+        tracker=tracker,
+        model=model,
+        target_path=output_path_file,
+        video_info=video_info,
+        frames_generator=generator,
+        DELAY=2,
+        save_record=True
+    )
+    # json_ans = {"data": [{'id': 1, 'image_path': input.file, 'autotype' : 'car', 'pollution': 57, 'count': 3}]}
+    # with open(parent_dir + '/videos/results/' + 'data.txt', 'w') as outfile:
+    #     json.dump(json_ans, outfile)
+    return to_zip(parent_dir + '/videos/results/')
 
 
 @app.post('/active_learning')
