@@ -101,16 +101,14 @@ def image_detection(file: Image64, background: BackgroundTasks):
             class_name_dict=class_name_dict
         )
 
-        count_types = count_classes(preds, class_name_dict)
+        types, count_defects = count_classes(preds, class_name_dict)
         autotypes = ''
-        all_count_defects = 0
-        for key, value in count_types.items():
+        for key, value in types.items():
             if value > 0:
                 autotypes += f"{key} - {value}\n"
-                all_count_defects += value
         
         imwrite(path_files + 'results/' + f"boxed_image-{names[i]}", ans)
-        json_ans['data'].append({'id': i + 1, 'image_path': names[i], 'autotype' : autotypes, 'count': all_count_defects})
+        json_ans['data'].append({'id': i + 1, 'image_path': names[i], 'autotype' : autotypes, 'count': count_defects})
     with open(path_files + 'results/' + 'data.txt', 'w') as outfile:
         json.dump(json_ans, outfile)
     background.add_task(remove_file, path_files + '/results/')
