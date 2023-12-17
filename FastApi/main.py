@@ -120,7 +120,7 @@ def image_detection(file: Image64, background: BackgroundTasks):
 
 
 @app.post('/video')
-def video_traking(input: Video, background: BackgroundTasks):
+def video_traking(input: Video):
     video_info = sv.VideoInfo.from_video_path(input.file)
     generator = sv.get_video_frames_generator(input.file)
     tracker = sv.ByteTrack()
@@ -138,7 +138,7 @@ def video_traking(input: Video, background: BackgroundTasks):
     # json_ans = {"data": [{'id': 1, 'image_path': input.file, 'autotype' : 'car', 'pollution': 57, 'count': 3}]}
     # with open(parent_dir + '/videos/results/' + 'data.txt', 'w') as outfile:
     #     json.dump(json_ans, outfile)
-    background.add_task(remove_file, parent_dir + '/videos/results/')
+    # background.add_task(remove_file, parent_dir + '/videos/results/')
     return to_zip(parent_dir + '/videos/results/')
 
 
