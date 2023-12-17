@@ -1,0 +1,10 @@
+^E:\WORK\CODING\HACK_ATOM\ATOM_HACK\MMT_AUTO\WINDOWS\CMAKELISTS.TXT
+setlocal
+"C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\bin\cmake.exe" -SE:/Work/coding/hack_atom/atom_hack/mmt_auto/windows -BE:/Work/coding/hack_atom/atom_hack/mmt_auto/build/windows --check-stamp-file E:/Work/coding/hack_atom/atom_hack/mmt_auto/build/windows/CMakeFiles/generate.stamp
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal & call :cmErrorLevel %errorlevel% & goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd

@@ -1,0 +1,33 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="17.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="E:\Work\coding\hack_atom\atom_hack\mmt_auto\windows\flutter\ephemeral\.plugin_symlinks\screen_brightness_windows\windows\src\screen_brightness_windows_plugin.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\Work\coding\hack_atom\atom_hack\mmt_auto\windows\flutter\ephemeral\.plugin_symlinks\screen_brightness_windows\windows\src\current_brightness_change_stream_handler.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="E:\Work\coding\hack_atom\atom_hack\mmt_auto\windows\flutter\ephemeral\.plugin_symlinks\screen_brightness_windows\windows\include\screen_brightness_windows\screen_brightness_windows_plugin.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Work\coding\hack_atom\atom_hack\mmt_auto\windows\flutter\ephemeral\.plugin_symlinks\screen_brightness_windows\windows\include\screen_brightness_windows\base_stream_handler.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\Work\coding\hack_atom\atom_hack\mmt_auto\windows\flutter\ephemeral\.plugin_symlinks\screen_brightness_windows\windows\include\screen_brightness_windows\current_brightness_change_stream_handler.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="E:\Work\coding\hack_atom\atom_hack\mmt_auto\windows\flutter\ephemeral\.plugin_symlinks\screen_brightness_windows\windows\CMakeLists.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{0580B6F2-7586-3C51-BADE-E312CB17597A}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{A0AA1A40-652E-3D1C-8CF1-C18AE4780AAE}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>

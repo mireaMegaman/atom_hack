@@ -1,0 +1,24 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="17.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="E:\Work\coding\hack_atom\atom_hack\mmt_auto\windows\flutter\ephemeral\.plugin_symlinks\media_kit_libs_windows_video\windows\media_kit_libs_windows_video_plugin_c_api.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="E:\Work\coding\hack_atom\atom_hack\mmt_auto\windows\flutter\ephemeral\.plugin_symlinks\media_kit_libs_windows_video\windows\include\media_kit_libs_windows_video\media_kit_libs_windows_video_plugin_c_api.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="E:\Work\coding\hack_atom\atom_hack\mmt_auto\windows\flutter\ephemeral\.plugin_symlinks\media_kit_libs_windows_video\windows\CMakeLists.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{0580B6F2-7586-3C51-BADE-E312CB17597A}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{A0AA1A40-652E-3D1C-8CF1-C18AE4780AAE}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>
