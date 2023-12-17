@@ -8,7 +8,7 @@ from ultralytics import RTDETR, YOLO
 import supervision as sv
 from tracker import tracking
 
-from typing import Dict
+from typing import Dict, List, Tuple
 
 
 def seed_everything(seed: int) -> None:
@@ -25,10 +25,26 @@ def seed_everything(seed: int) -> None:
     torch.backends.cudnn.deterministic = True
 
 
+def calc_center_dot(preds) -> List[Tuple[float, float]]:
+    """
+    Считает коордианты центров всех bbox в предсказании
+    :param preds: предсказания модели по кадру
+    :return: Координаты центров всех найденных bbox
+    """
+    ans = []
+    for tensor in preds.boxes.xyxy:
+        xyxy = tensor.tolist()
+        x = int((xyxy[0] + xyxy[2]) / 2)
+        y = int((xyxy[1] + xyxy[3]) / 2)
+        ans.append((x, y))
+
+    return ans
+
+
 def draw_boxes_sv(
-        image_path,
+        image_path: str,
         preds,
-        class_name_dict
+        class_name_dict: Dict[int, str]
 ) -> np.ndarray:
     """
     Рисует красивые bbox
@@ -39,22 +55,38 @@ def draw_boxes_sv(
     """
     image = cv2.imread(image_path)
     box_annotator = sv.BoxAnnotator(
-        thickness=2,
+        thickness=3,
         text_thickness=2,
         text_scale=1
     )
+
+    dot_annotator = sv.DotAnnotator(radius=6)
+
+    coordinates = calc_center_dot(preds)
+
     detections = sv.Detections.from_ultralytics(preds)
-    labels = [f"{class_name_dict[class_id]} {confidence:0.2f}" for _, _, confidence, class_id, _ in detections]
+    labels = [f"{class_name_dict[class_id]}; ({cords[0]}; {cords[1]})" for cords,( _, _, confidence, class_id, _) in zip(coordinates, detections)]
     annotated_image = box_annotator.annotate(
         image,
         detections=detections,
         labels=labels
     )
 
+    annotated_image = dot_annotator.annotate(
+        annotated_image,
+        detections=detections,
+    )
+
     return annotated_image
 
 
 def count_classes(preds, class_name_dict):
+    """
+    Подсчет количества дефектов на кадре каждого вида
+    :param preds: предсказания YOLO / RTDETR по фотографии
+    :param class_name_dict: наименование классов, как они записаны в модели
+    :return: Dict[str, int], количество обьектов каждого класса
+    """
     count_class = dict()
 
     class_id_detections = preds.boxes.cls.tolist()

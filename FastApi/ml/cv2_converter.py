@@ -26,31 +26,6 @@ def draw_boxes(path_to_image: str, yolo_predict) -> numpy.ndarray:
         return image
 
 
-"""def draw_boxes_from_list(
-        path_to_image: str,
-        list_yolo_pred: List[float],
-        labels: List[float]
-) -> numpy.ndarray:
-
-    colors = {'1': (255, 0, 0), '2': (0, 255, 0), '3': (0, 0, 255), '4': (127, 127, 127)}
-    image = cv2.imread(path_to_image)
-    height, width, _ = image.shape
-
-    try:
-        for object_, label_ in zip(list_yolo_pred, labels):
-            color = colors[str(int(label_))]
-            x_min, y_min, x_max, y_max = object_
-            x_min = int(x_min * width)
-            y_min = int(y_min * height)
-            x_max = int(x_max * width)
-            y_max = int(y_max * height)
-            cv2.rectangle(image, (x_min, y_min), (x_max, y_max), color, 3)  # array here
-
-        return image
-    except:
-        return image"""
-
-
 def draw_boxes_from_list(image_path1, boxes_1, labels1):
     image = cv2.imread(image_path1)
     height, width, _ = image.shape
