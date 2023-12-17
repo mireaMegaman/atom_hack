@@ -90,11 +90,11 @@ def count_classes(preds, class_name_dict):
     count_class = dict()
 
     class_id_detections = preds.boxes.cls.tolist()
-
+    count_defects = len(class_id_detections)
     for id in class_id_detections:
-        count_class[class_name_dict[int(id)]] = count_class.get(int(id), 0) + 1
+        count_class[class_name_dict[int(id)]] = count_class.get(class_name_dict[int(id)], 0) + 1
 
-    return count_class
+    return count_class, count_defects
 
 
 if __name__ == "__main__":

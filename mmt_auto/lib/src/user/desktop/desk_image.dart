@@ -37,6 +37,7 @@ class MainDesktop extends StatefulWidget {
 
 class  MainDeskState extends State<MainDesktop>{
   bool flag = false;
+  bool alert = false;
   late var popup = '';
   bool _isLoading = false;
   late var newDataList = [];
@@ -57,6 +58,80 @@ class  MainDeskState extends State<MainDesktop>{
   }
 
 // ---------------------------------------------------------------------------------------------- //
+
+// ---------------------------------------------------------------------------------------------- //
+void _showAlert(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          shape: const RoundedRectangleBorder(
+              borderRadius: BorderRadius.all(Radius.circular(12.0))),
+          title: const Text("ВНИМАНИЕ", 
+              style: TextStyle(
+                  fontWeight: FontWeight.w500,
+                  fontStyle: FontStyle.normal,
+                  fontSize: 20,
+                  color: Color(0xFFF3F2F3),
+                )
+              ),
+          backgroundColor: const Color.fromARGB(255, 80, 3, 3),
+          content: const SizedBox(
+            width: 300,
+            height: 120,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisSize: MainAxisSize.max,
+              children: [
+                Padding(
+                  padding: EdgeInsets.all(3.0),
+                  child: Text("Зафиксированы дефекты!", 
+                                    style: TextStyle(
+                                      fontWeight: FontWeight.w500,
+                                      fontStyle: FontStyle.normal,
+                                      fontSize: 18,
+                                      color: Color(0xFFF3F2F3),
+                                    ),
+                                    textAlign: TextAlign.center,
+                                  ),
+                ),
+                Padding(
+                  padding: EdgeInsets.fromLTRB(3,15,3,0),
+                  child: Text("Немедленно требуется участие специалиста", 
+                                    style: TextStyle(
+                                      fontWeight: FontWeight.w400,
+                                      fontStyle: FontStyle.normal,
+                                      fontSize: 18,
+                                      color: Color.fromARGB(255, 184, 184, 184),
+                                    ),
+                                    textAlign: TextAlign.center,
+                                  ),
+                ),
+              ],
+            ),
+          ),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: const Text("OK", 
+                        style: TextStyle(
+                            fontWeight: FontWeight.w500,
+                            fontStyle: FontStyle.normal,
+                            fontSize: 18,
+                            color: Color(0xFFF3F2F3),
+                        )
+                      ),
+            ),
+          ],
+        );
+      },
+    );
+  }
+// ---------------------------------------------------------------------------------------------- //
+
 // ---------------------------------------------------------------------------------------------- //
   // unzip fastapi server responce
   Future<void> unzipFileFromResponse(List<int> responseBody) async {
@@ -94,7 +169,7 @@ class  MainDeskState extends State<MainDesktop>{
 // ---------------------------------------------------------------------------------------------- //
 // ---------------------------------------------------------------------------------------------- //
   // image upload to fastapi server
-  Future<void> uploadImage() async {
+  Future<void> uploadImage(context) async {
     setState(() {
       _isLoading = true;
       popup = '';
@@ -147,15 +222,25 @@ class  MainDeskState extends State<MainDesktop>{
         _isLoading = false;
         newDataList = dataMap; 
         newData = [];
-        popup = 'Таблица предсказаний:\nid - файл - дефекты\n';
+        popup = 'Таблица предсказаний:';
         for (var i = 0; i < dataList.length; i++) {
           newData.add(NewData(dataList[i][0].toString(), dataList[i][1].toString(), 
                               dataList[i][2].toString(), dataList[i][3].toString()));
-          popup += '${dataList[i][0]} - ${dataList[i][1]} - ${dataList[i][3]}\n\nТипы дефектов:\n${dataList[i][2]}';
+          popup += 'id - файл - дефекты\n${dataList[i][0]} - ${dataList[i][1]} - ${dataList[i][3]}\n\nТипы дефектов:\n${dataList[i][2]}';
           popup += '\n';
+          print(dataList[i][2] == '');
+          if (dataList[i][2] == '') {
+            alert = false;
+          }
+          else {
+            alert = true;
+          }
         }
-        popup += '\n';
+        popup += '\n-----------------------------\n';
         popup += jsonEncode(responceMap["data"]);
+        if (alert == true) {
+          _showAlert(context);
+        }
         newDataSRC = NewDataSource(NewData_Data: newData);
       });
     } else {
@@ -202,7 +287,7 @@ class  MainDeskState extends State<MainDesktop>{
     getNewDataData();
   }
 // ---------------------------------------------------------------------------------------------- //
-// ---------------------------------------------------------------------------------------------- //
+
   // error popup for prediction
   void _showAlertPredict(BuildContext context) {
     showDialog(
@@ -260,21 +345,36 @@ class  MainDeskState extends State<MainDesktop>{
                 borderRadius: BorderRadius.all(Radius.circular(12.0))),
             title: const Text("Содержание предикта модели", 
                 style: TextStyle(
-                    fontWeight: FontWeight.w500,
+                    fontWeight: FontWeight.w600,
                     fontStyle: FontStyle.normal,
-                    fontSize: 16,
+                    fontSize: 18,
                     color: Color(0xFFF3F2F3),
                   )
                 ),
             backgroundColor: const Color.fromARGB(255, 14, 24, 28),
-            content: Text(fileContext, 
-                              style: const TextStyle(
-                                fontWeight: FontWeight.w500,
-                                fontStyle: FontStyle.normal,
-                                fontSize: 16,
-                                color: Color(0xFFF3F2F3),
-                              )
-                            ),
+            content: Container(
+              width: 500,
+              height: 420,
+              child: SingleChildScrollView(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.all(4.0),
+                      child: 
+                      Text(fileContext, 
+                        style: const TextStyle(
+                          fontWeight: FontWeight.w400,
+                          fontStyle: FontStyle.normal,
+                          fontSize: 16,
+                          color: Color(0xFFF3F2F3),
+                        )
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
             actions: [
               TextButton(
                 onPressed: () {
@@ -529,7 +629,7 @@ class  MainDeskState extends State<MainDesktop>{
                                               _isLoading ? 'Загрузка...' : 'Ваше фото',
                                               style: const TextStyle(fontSize: 20, color: Color(0xFF181818)),
                                             ),
-                                            onPressed: () => _isLoading ? null : uploadImage(),
+                                            onPressed: () => _isLoading ? null : uploadImage(context),
                                               style: ElevatedButton.styleFrom(
                                               padding: const EdgeInsets.all(14),
                                               backgroundColor: const Color(0xFF75B6E5),
