@@ -92,9 +92,9 @@
 1. Для корректной работы BackEnd части (модели, FastAPI) укажите в терминале команду ```docker-compose build```.<br>
 2. Далее укажите в терминале команду ```docker-compose up```.<br>
 3. Далее: <br>
-* На Windows: перейдите в [аналогичную директорию]()
+* На Windows: перейдите в [аналогичную директорию](https://github.com/mireaMegaman/atom_hack/blob/main/mmt_fl/build/windows/runner/Debug/mmt_fl.exe)
 на вашем устройстве и запустите файл ```mmt_fl.exe```.  <br>
-* На Linux: перейдите в [аналогичную директорию]()
+* На Linux: перейдите в [аналогичную директорию](https://github.com/mireaMegaman/atom_hack/blob/main/mmt_fl/build/linux/x64/debug/bundle/mmt_fl)
 на вашем устройстве и запустите файл ```mmt_fl```.  <br>
 
 <h3> </h3>
