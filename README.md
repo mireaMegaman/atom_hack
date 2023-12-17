@@ -127,13 +127,12 @@ python -m venv venv
 venv/Scripts/activate
 ```
 ```
-cd BackEnd
+cd FastApi
 pip install -r requirements.txt
 ```
 После установки зависимостей:
 ```
-cd ..
-uvicorn BackEnd.main:app
+uvicorn main:app --port 80
 ```
 
 <p align="right">(<a href="#readme-top"><i>Вернуться наверх</i></a>)</p>
