@@ -228,7 +228,7 @@ void _showAlert(BuildContext context) {
                               dataList[i][2].toString(), dataList[i][3].toString()));
           popup += 'id - файл - дефекты\n${dataList[i][0]} - ${dataList[i][1]} - ${dataList[i][3]}\n\nТипы дефектов:\n${dataList[i][2]}';
           popup += '\n';
-          print(dataList[i][2] == '');
+          // print(dataList[i][2] == '');
           if (dataList[i][2] == '') {
             alert = false;
           }

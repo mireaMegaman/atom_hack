@@ -5,7 +5,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:media_kit/media_kit.dart';
 // external dependencies
-import 'package:path/path.dart';
+// import 'package:path/path.dart';
 import 'package:archive/archive.dart';
 import 'package:http/http.dart' as http;
 import 'package:image_picker/image_picker.dart';
@@ -15,7 +15,7 @@ import 'package:media_kit_video/media_kit_video.dart';
 // app pages
 import 'package:mmt_auto/src/user/mmt.dart';
 import 'package:mmt_auto/src/user/desktop/desk_image.dart';
-import 'package:smooth_page_indicator/smooth_page_indicator.dart';
+// import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
 
 // ---------------------------------------------------------------------------------------------- //
@@ -42,7 +42,7 @@ class  VideoDeskState extends State<VideoDesktop>{
   bool _isLoading = false;
   late var newDataList = [];
   List<Widget> nameSlots = [];
-  final _imageController = PageController();
+  // final _imageController = PageController();
   List<String> bboxImgs = [
     "./assets/images/loader.png",
     "./assets/images/loader.png",
@@ -106,9 +106,10 @@ class  VideoDeskState extends State<VideoDesktop>{
             ..createSync(recursive: true)
             ..writeAsBytesSync(data);
             File file = File("./responce/$filename");
-            print(file.absolute.path);
+            // print(file.absolute.path);
             if (filename.contains('.mp4')) {
-              playable = Media(file.absolute.path);
+              // playable = Media(file.absolute.path);
+              playable = Media(file.path);
               setState(() {
                 _isLoading = false;
                 player.open(playable);
@@ -307,7 +308,7 @@ class  VideoDeskState extends State<VideoDesktop>{
                     setState(() {
                       // flag = true;
                       // newDataList = [];
-                      // clearFolders();
+                      clearFolders();
                     });
                   },
                 ),
