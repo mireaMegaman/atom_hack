@@ -5,6 +5,7 @@ charset-normalizer==3.3.2
 contourpy==1.2.0
 cycler==0.12.1
 exceptiongroup==1.2.0
+ensemble_boxes
 fastapi==0.105.0
 filelock==3.13.1
 fonttools==4.46.0
@@ -58,4 +59,5 @@ triton==2.1.0
 typing_extensions==4.9.0
 tzdata==2023.3
 ultralytics==8.0.227
+uvicorn
 urllib3==2.1.0
