@@ -114,6 +114,7 @@ void _showAlert(BuildContext context) {
           actions: [
             TextButton(
               onPressed: () {
+                alert = false;
                 Navigator.of(context).pop();
               },
               child: const Text("OK", 
@@ -218,6 +219,7 @@ void _showAlert(BuildContext context) {
             .map((element) => [element['id'], element['image_path'], element['autotype'], 
                                 element['count']]).toList();
       setState(() {
+        int count = 0;
         flag = true;
         _isLoading = false;
         newDataList = dataMap; 
@@ -228,17 +230,20 @@ void _showAlert(BuildContext context) {
                               dataList[i][2].toString(), dataList[i][3].toString()));
           popup += 'id - файл - дефекты\n${dataList[i][0]} - ${dataList[i][1]} - ${dataList[i][3]}\n\nТипы дефектов:\n${dataList[i][2]}';
           popup += '\n';
-          // print(dataList[i][2] == '');
+          print(dataList[i][2] == '');
           if (dataList[i][2] == '') {
             alert = false;
           }
           else {
             alert = true;
+            count += 1;
           }
         }
         popup += '\n-----------------------------\n';
         popup += jsonEncode(responceMap["data"]);
-        if (alert == true) {
+        print(alert);
+        print(count);
+        if (alert == true && count > 0) {
           _showAlert(context);
         }
         newDataSRC = NewDataSource(NewData_Data: newData);
